@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/ResponseServer" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ResponseServer" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:7101/OrderPollingService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://localhost:7101/OrderPollingService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/ResponseServer.Messages" />
+  <xs:complexType name="CancelOrderResponseData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ConfirmationId" type="ser:guid" />
+      <xs:element minOccurs="0" name="OrderId" type="xs:int" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ResponseServer.Messages" minOccurs="0" name="Status" type="q1:OrderStatus" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CancelOrderResponseData" nillable="true" type="tns:CancelOrderResponseData" />
+</xs:schema>

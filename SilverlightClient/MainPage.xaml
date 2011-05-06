@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="SilverlightClient.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit" d:DesignHeight="480" d:DesignWidth="640">
+
+    <Grid x:Name="LayoutRoot" Background="White" Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="54" />
+            <RowDefinition Height="51" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border BorderThickness="1" CornerRadius="3" Padding="5" Background="#AFD3D3D3" BorderBrush="#FF363C45" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,4,0,22">
+            <StackPanel Orientation="Horizontal" Grid.Row="0">
+                <TextBlock Name="lblConnected" Text="Connected with Session Id:" FontWeight="Bold" Foreground="SlateGray" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <TextBlock Name="tbConnected" Text="" Foreground="SlateGray" Margin="3,0,5,0" />
+            </StackPanel>
+        </Border>
+
+   
+            <StackPanel Grid.Row="1" Margin="0">
+                <TextBlock Grid.Row="0" Name="lblHeader" Text="Cancel Order" FontSize="13" FontWeight="Bold" />
+            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                <TextBlock ToolTipService.ToolTip="Please enter the number of the order that you wish to cancel." Height="23" Name="textBlock2" Text="Order Number:" Grid.Row="1" Margin="0,0,5,0" Padding="0,3,0,0" />
+                <TextBox Height="23" HorizontalAlignment="Left" Name="txtOrderId" Width="42" Grid.Row="1" Margin="0,0,5,0" />
+                <Button ToolTipService.ToolTip="Invoke the Cancel Order Command" Content="Cancel Order" Height="23" HorizontalAlignment="Right" Name="btnCancelOrder" Width="105" Grid.Row="1" Click="OnCanelOrderCommand" />
+                <TextBlock ToolTipService.ToolTip="Please enter the number of the order that you wish to cancel." Height="23" Name="tbResult" Text="" Margin="10,0,0,0" />
+            </StackPanel>
+            </StackPanel>
+
+
+
+
+        <Grid Grid.Row="2" Background="{x:Null}" VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Name="lblResponseHeader" Text="Cancel Order Response" FontSize="13" FontWeight="Bold" />
+            <StackPanel Grid.Row="2">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Height="23" Name="tbOrderId" Text="Confirmation Id:" />
+                    <TextBlock Height="23" Name="lblOrderId" Text="" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Height="23" Name="tbConfirmationId" Text="Confirmation Id:" />
+                    <TextBlock Height="23" Name="lblConfirmationId" Text="" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Height="23" Name="tbOrderStatus" Text="Order Status:" />
+                    <TextBlock Height="23" Name="lblOrderStatus" Text="" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+
+
+    </Grid>
+</UserControl>

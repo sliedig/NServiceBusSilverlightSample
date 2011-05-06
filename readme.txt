@@ -1,0 +1,1 @@
+Shows sample implementation using NServiceBus into Silverlight. Demonstrates use of PollingDuplexHttpBinding to obtain results from long running processes (saga).

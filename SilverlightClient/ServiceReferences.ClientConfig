@@ -1,0 +1,18 @@
+﻿<configuration>
+    <system.serviceModel>
+        <bindings>
+            <basicHttpBinding>
+                <binding name="BasicHttpBinding_IWcfServiceOf_CancelOrderRequest_ErrorCodes"
+                    maxBufferSize="2147483647" maxReceivedMessageSize="2147483647">
+                    <security mode="None" />
+                </binding>
+            </basicHttpBinding>
+        </bindings>
+        <client>
+            <endpoint address="http://localhost:7100/CancelOrderService.svc"
+                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IWcfServiceOf_CancelOrderRequest_ErrorCodes"
+                contract="CancelOrderService.IWcfServiceOf_CancelOrderRequest_ErrorCodes"
+                name="BasicHttpBinding_IWcfServiceOf_CancelOrderRequest_ErrorCodes" />
+        </client>
+    </system.serviceModel>
+</configuration>
