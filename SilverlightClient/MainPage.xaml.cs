@@ -9,6 +9,8 @@ namespace SilverlightClient
 {
 	public partial class MainPage : UserControl
 	{
+		private readonly OrderPollingServiceClient _pollingClient;
+
 		public MainPage()
 		{
 			InitializeComponent();
@@ -16,10 +18,10 @@ namespace SilverlightClient
 			// Setup up client channel for the Polling Service
 			var address = new EndpointAddress("http://localhost:7101/OrderPollingService.svc");
 			var binding = new PollingDuplexHttpBinding();
-			_client = new OrderPollingServiceClient(binding, address);
-			_client.CancelOrderResponseReceived += OnCancelOrderResponseReceived;
-			_client.ReceiveOrderCancellationsReceived += OnReceiveOrderCancellationsReceived;
-			_client.GetOrderCancellationsAsync();
+			_pollingClient = new OrderPollingServiceClient(binding, address);
+			_pollingClient.CancelOrderResponseReceived += OnCancelOrderResponseReceived;
+			_pollingClient.ReceiveOrderCancellationsReceived += OnReceiveOrderCancellationsReceived;
+			_pollingClient.GetOrderCancellationsAsync();
 
 		}
 
@@ -78,7 +80,7 @@ namespace SilverlightClient
 
 		internal void Disconnect()
 		{
-			_client.CloseAsync();
+			_pollingClient.CloseAsync();
 		}
 
 	}
