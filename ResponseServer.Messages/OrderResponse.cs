@@ -3,10 +3,10 @@ using NServiceBus;
 
 namespace ResponseServer.Messages
 {
-	public class OrderResponse : IMessage
+	public interface OrderResponse : IMessage
 	{
-		public int OrderId { get; set; }
-		public Guid ConfirmationId { get; set; }
-		public OrderStatus Status { get; set; }
+		int OrderId { get; set; }
+		Guid ConfirmationId { get; set; }
+		OrderStatus Status { get; set; }
 	}
 }

@@ -13,21 +13,32 @@ namespace RequestServer
 		{
 			this.bus = bus;
 		}
-
+		
+		/// <summary>
+		/// Handles Cancel Order requests from Silverlight application.
+		/// </summary>
+		/// <param name="message">CancelOrderRequest</param>
 		public void Handle(CancelOrderRequest message)
 		{
-			// logic here...
-
-			bus.Return((int)ErrorCodes.Success);
-
-			// Probably best to publish message to Saga so we can simulate the multiple response scenario.
-			bus.Send<OrderResponse>(r =>
+			try
 			{
-				r.OrderId = message.OrderId;
-				r.ConfirmationId = Guid.NewGuid(); 
-				r.Status = OrderStatus.PendingCancellation;
+				// TODO: Implement Saga so we can simulate the multiple response scenario.
+				bus.Send<OrderResponse>(response =>
+					{
+						response.OrderId = message.OrderId;
+						response.ConfirmationId = Guid.NewGuid();
+						response.Status = OrderStatus.PendingCancellation;
+					}
+				);
+
+
+				// Return error code indicating successful processing of request.
+				bus.Return((int)ErrorCodes.Success);
 			}
-			);
+			catch (Exception ex)
+			{
+				bus.Return((int)ErrorCodes.Fail);
+			}
 
 		}
 	}

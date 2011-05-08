@@ -3,17 +3,18 @@ using System.ServiceModel;
 using System.Collections.Generic;
 using System.Linq;
 using ResponseServer.Messages;
+using NServiceBus;
 
 namespace ResponseServer
 {
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	public class OrderPollingService : IOrderPollingService, NServiceBus.IHandleMessages<OrderResponse>
+	public class OrderPollingService : IOrderPollingService, IHandleMessages<OrderResponse>
 	{
 
 		private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 		readonly object _key = new object();
-		private  static Dictionary<string, IOrderPollingClient> _clientCallbackStore = new Dictionary<string, IOrderPollingClient>();
+		private static Dictionary<string, IOrderPollingClient> _clientCallbackStore = new Dictionary<string, IOrderPollingClient>();
 		readonly static AsyncCallback _receiveOrderCancelResponseCompleted = new AsyncCallback(ReceiveOrderCancelResponseCompleted);
 
 
@@ -38,16 +39,24 @@ namespace ResponseServer
 				}
 			}
 
+			// Return the Session Id to the client. Provides a visual indicator that registration has haken place. 
 			currClient.ReceiveOrderCancellations(sessionID);
 
 		}
 
 		#endregion
 
-		public void PushResponse(CancelOrderResponseData response)
+		/// <summary>
+		/// Loops through stored sessions, and pushes responses to open channels.
+		/// </summary>
+		/// <param name="response">CancelOrderResponse DTO</param>
+		public static void PushResponse(CancelOrderResponseData response)
 		{
 			IEnumerable<KeyValuePair<string, IOrderPollingClient>> callbackChannels
 				= _clientCallbackStore.Where(cb => ((IContextChannel)cb.Value).State == CommunicationState.Opened);
+
+
+			// TODO: Filter so that the response message is sent to the originating client only, rather than a broadcast.
 
 			for (int i = 0; i < callbackChannels.Count(); i++)
 			{
@@ -101,12 +110,18 @@ namespace ResponseServer
 			}
 		}
 
-		#region IMessageHandler<OrderResponse> Members
 
+
+
+		#region IMessageHandler<OrderResponse> Members
+		/// <summary>
+		/// Processes the Order responses from Saga (note: Saga not yet implemented).
+		/// </summary>
+		/// <param name="message"></param>
 		public void Handle(OrderResponse message)
 		{
 			var response = new CancelOrderResponseData() { ConfirmationId = message.ConfirmationId, Status = message.Status, OrderId = message.OrderId };
-			this.PushResponse(response);
+			OrderPollingService.PushResponse(response);
 		}
 
 		#endregion
